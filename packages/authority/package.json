@@ -1,0 +1,24 @@
+{
+  "name": "@controldeck/authority",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Human authority / approval binding (submission/week4/AUTHORITY_MODEL.md). Gate 5 output is AUTHORITY STATE only — no adapter execution. grantApproval is the sole constructor of an Approval; matchApproval/evaluateAuthority decide whether one still grants authority for a specific consumption attempt.",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@controldeck/contracts": "workspace:*",
+    "@controldeck/domain": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.10"
+  }
+}
