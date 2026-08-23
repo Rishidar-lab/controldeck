@@ -1,0 +1,24 @@
+{
+  "name": "@controldeck/evidence",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "The CLAIM -> EVIDENCE -> VERIFIED FACT pipeline (submission/week4/ARCHITECTURE.md 'Evidence model'). Pure and deterministic: no I/O, no model calls — an agent's own claim of having verified something never itself makes it verified.",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@controldeck/contracts": "workspace:*",
+    "@controldeck/domain": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.10"
+  }
+}
