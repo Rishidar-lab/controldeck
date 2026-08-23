@@ -53,7 +53,8 @@ export type ExecuteActionPreconditionFailure = { readonly ok: true; readonly tri
  */
 export type ExecuteActionResolved<TReceipt> = { readonly ok: true; readonly trigger: "execution_resolved"; readonly operationId: string; readonly replay: boolean; readonly receipt?: TReceipt; readonly adapterErrorMessage?: string };
 
-export type ExecuteActionUnknownOutcome = { readonly ok: true; readonly trigger: "execution_unknown_outcome"; readonly stage: "timeout"; readonly operationId: string };
+/** `reasonCode` is the exact governed code (w4-011) — a genuine timeout, distinct from a precondition-blocked refusal, which carries its own `PRECONDITION_FAILED` code instead. */
+export type ExecuteActionUnknownOutcome = { readonly ok: true; readonly trigger: "execution_unknown_outcome"; readonly stage: "timeout"; readonly reasonCode: "UNKNOWN_OUTCOME"; readonly operationId: string };
 
 export type ExecuteActionResult<TReceipt> = ExecuteActionFailure | ExecuteActionPreconditionFailure | ExecuteActionResolved<TReceipt> | ExecuteActionUnknownOutcome;
 
@@ -150,7 +151,7 @@ export async function executeAction<TParams, TReceipt>(input: ExecuteActionInput
   if (raceResult.kind === "timeout") {
     const record: OperationRecord<TReceipt> = { operationId, idempotencyKey: input.operation.idempotencyKey, capabilityId: input.capability.id, payloadHash, state: "unknown_outcome" };
     input.operationStore.record(record);
-    return { ok: true, trigger: "execution_unknown_outcome", stage: "timeout", operationId };
+    return { ok: true, trigger: "execution_unknown_outcome", stage: "timeout", reasonCode: "UNKNOWN_OUTCOME", operationId };
   }
 
   if (raceResult.kind === "rejected") {
@@ -181,5 +182,5 @@ function replayDuplicate<TReceipt>(prior: OperationRecord<TReceipt>, operationId
   if (prior.state === "failed") {
     return { ok: true, trigger: "execution_resolved", operationId: prior.operationId, replay: true, ...(prior.errorMessage !== undefined ? { adapterErrorMessage: prior.errorMessage } : {}) };
   }
-  return { ok: true, trigger: "execution_unknown_outcome", stage: "timeout", operationId };
+  return { ok: true, trigger: "execution_unknown_outcome", stage: "timeout", reasonCode: "UNKNOWN_OUTCOME", operationId };
 }

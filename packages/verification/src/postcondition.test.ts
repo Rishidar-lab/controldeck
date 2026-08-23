@@ -12,33 +12,37 @@ describe("verifyTicketPostcondition — never trusts narration, only re-derives 
     expect(verifyTicketPostcondition(validReceipt(), EXPECTED)).toEqual({ ok: true });
   });
 
-  it("null/non-object input never verifies", () => {
-    expect(verifyTicketPostcondition(null, EXPECTED)).toEqual({ ok: false, reasonCode: "POSTCONDITION_FAILED" });
-    expect(verifyTicketPostcondition(undefined, EXPECTED)).toEqual({ ok: false, reasonCode: "POSTCONDITION_FAILED" });
-    expect(verifyTicketPostcondition("adapter says success", EXPECTED)).toEqual({ ok: false, reasonCode: "POSTCONDITION_FAILED" });
-    expect(verifyTicketPostcondition(200, EXPECTED)).toEqual({ ok: false, reasonCode: "POSTCONDITION_FAILED" });
+  describe("INVALID_TOOL_OUTPUT (w4-020): the value is not even receipt-shaped", () => {
+    it("null/non-object input", () => {
+      expect(verifyTicketPostcondition(null, EXPECTED)).toEqual({ ok: false, reasonCode: "INVALID_TOOL_OUTPUT" });
+      expect(verifyTicketPostcondition(undefined, EXPECTED)).toEqual({ ok: false, reasonCode: "INVALID_TOOL_OUTPUT" });
+      expect(verifyTicketPostcondition("adapter says success", EXPECTED)).toEqual({ ok: false, reasonCode: "INVALID_TOOL_OUTPUT" });
+      expect(verifyTicketPostcondition(200, EXPECTED)).toEqual({ ok: false, reasonCode: "INVALID_TOOL_OUTPUT" });
+    });
+
+    it("an empty object (schema-invalid response)", () => {
+      expect(verifyTicketPostcondition({}, EXPECTED)).toEqual({ ok: false, reasonCode: "INVALID_TOOL_OUTPUT" });
+    });
+
+    it("status other than 'open', however the adapter narrated it", () => {
+      expect(verifyTicketPostcondition(validReceipt({ status: "ok" }), EXPECTED)).toEqual({ ok: false, reasonCode: "INVALID_TOOL_OUTPUT" });
+      expect(verifyTicketPostcondition(validReceipt({ status: "success" }), EXPECTED)).toEqual({ ok: false, reasonCode: "INVALID_TOOL_OUTPUT" });
+    });
+
+    it("a missing/empty ticketId, even with every other field correct", () => {
+      expect(verifyTicketPostcondition(validReceipt({ ticketId: "" }), EXPECTED)).toEqual({ ok: false, reasonCode: "INVALID_TOOL_OUTPUT" });
+      const { ticketId: _ticketId, ...withoutTicketId } = validReceipt();
+      expect(verifyTicketPostcondition(withoutTicketId, EXPECTED)).toEqual({ ok: false, reasonCode: "INVALID_TOOL_OUTPUT" });
+    });
   });
 
-  it("an empty object (w3/w4-020-style malformed receipt) never verifies", () => {
-    expect(verifyTicketPostcondition({}, EXPECTED)).toEqual({ ok: false, reasonCode: "POSTCONDITION_FAILED" });
-  });
+  describe("POSTCONDITION_FAILED (w4-030): well-formed, but for a different operation than the one actually asked for", () => {
+    it("a receipt for a DIFFERENT idempotency key does not prove THIS operation succeeded, however well-formed", () => {
+      expect(verifyTicketPostcondition(validReceipt({ idempotencyKey: "idem_SOMEONE_ELSE" }), EXPECTED)).toEqual({ ok: false, reasonCode: "POSTCONDITION_FAILED" });
+    });
 
-  it("status other than 'open' never verifies, however the adapter narrated it", () => {
-    expect(verifyTicketPostcondition(validReceipt({ status: "ok" }), EXPECTED)).toEqual({ ok: false, reasonCode: "POSTCONDITION_FAILED" });
-    expect(verifyTicketPostcondition(validReceipt({ status: "success" }), EXPECTED)).toEqual({ ok: false, reasonCode: "POSTCONDITION_FAILED" });
-  });
-
-  it("a receipt for a DIFFERENT idempotency key does not prove THIS operation succeeded, however well-formed", () => {
-    expect(verifyTicketPostcondition(validReceipt({ idempotencyKey: "idem_SOMEONE_ELSE" }), EXPECTED)).toEqual({ ok: false, reasonCode: "POSTCONDITION_FAILED" });
-  });
-
-  it("a receipt whose title does not match what was actually asked for does not verify", () => {
-    expect(verifyTicketPostcondition(validReceipt({ title: "an entirely different ticket" }), EXPECTED)).toEqual({ ok: false, reasonCode: "POSTCONDITION_FAILED" });
-  });
-
-  it("a missing/empty ticketId never verifies, even with every other field correct", () => {
-    expect(verifyTicketPostcondition(validReceipt({ ticketId: "" }), EXPECTED)).toEqual({ ok: false, reasonCode: "POSTCONDITION_FAILED" });
-    const { ticketId: _ticketId, ...withoutTicketId } = validReceipt();
-    expect(verifyTicketPostcondition(withoutTicketId, EXPECTED)).toEqual({ ok: false, reasonCode: "POSTCONDITION_FAILED" });
+    it("a receipt whose title does not match what was actually asked for", () => {
+      expect(verifyTicketPostcondition(validReceipt({ title: "an entirely different ticket" }), EXPECTED)).toEqual({ ok: false, reasonCode: "POSTCONDITION_FAILED" });
+    });
   });
 });

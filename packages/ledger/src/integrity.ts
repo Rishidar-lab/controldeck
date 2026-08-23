@@ -1,9 +1,14 @@
+import type { ReasonCode } from "@controldeck/contracts";
 import type { AuditLedgerEntry } from "./hash-chain.js";
 import { computeEntryHash, GENESIS_HASH } from "./hash-chain.js";
 
+/** Local diagnostic detail — WHICH check failed, for logs/debugging. Every one of these maps to the single governed `ReasonCode` (`AUDIT_INTEGRITY_FAILED`, w4-013) a caller actually reports/audits — see `AUDIT_INTEGRITY_FAILED_REASON_CODE` below, same "governed code + local diagnostic detail" split as Gate 6's `PRECONDITION_FAILED` + `driftedDimensions`. */
 export type LedgerIntegrityReasonCode = "SEQUENCE_GAP" | "PREV_HASH_MISMATCH" | "HASH_MISMATCH" | "CHAIN_LENGTH_MISMATCH";
 
 export type LedgerIntegrityResult = { readonly ok: true; readonly checkedEntries: number } | { readonly ok: false; readonly reasonCode: LedgerIntegrityReasonCode; readonly brokenAtSequence: number };
+
+/** The one governed `ReasonCode` any integrity failure reports as, regardless of which specific check caught it (`transition(state, "audit_integrity_failed") -> PAUSED` is legal from every non-terminal state, Gate 1). */
+export const AUDIT_INTEGRITY_FAILED_REASON_CODE: ReasonCode = "AUDIT_INTEGRITY_FAILED";
 
 /**
  * Recomputes the hash chain from scratch over whatever entries are

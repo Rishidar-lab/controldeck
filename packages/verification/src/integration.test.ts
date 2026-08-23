@@ -83,7 +83,7 @@ describe("full execution + verification chain — postcondition proof matrix", (
     expect(execResult.receipt).toBeUndefined();
 
     const verdict = classifyResolvedExecution(execResult.receipt, { idempotencyKey: "idem_3", title: "x" });
-    expect(verdict).toEqual({ outcome: "FAILED", trigger: "postcondition_fail", reasonCode: "POSTCONDITION_FAILED" });
+    expect(verdict).toEqual({ outcome: "FAILED", trigger: "postcondition_fail", reasonCode: "INVALID_TOOL_OUTPUT" });
   });
 
   it("test 4: adapter may have executed but the response was lost -> UNKNOWN_OUTCOME first, then RESOLVED via read-only reconciliation, never a second execute() call", async () => {

@@ -27,7 +27,7 @@ describe("classifyResolvedExecution — postcondition proof test 2: adapter says
 describe("classifyResolvedExecution — postcondition proof test 3: adapter errors before side effect -> FAILED", () => {
   it("no receipt at all (the adapter threw) -> automatic FAILED, nothing to verify a postcondition against", () => {
     const result = classifyResolvedExecution(undefined, EXPECTED);
-    expect(result).toEqual({ outcome: "FAILED", trigger: "postcondition_fail", reasonCode: "POSTCONDITION_FAILED" });
+    expect(result).toEqual({ outcome: "FAILED", trigger: "postcondition_fail", reasonCode: "INVALID_TOOL_OUTPUT" });
   });
 });
 
@@ -40,6 +40,6 @@ describe("classifyResolvedExecution — postcondition proof test 6: agent claims
 
   it("an agent's bare claim, with NO real receipt fields at all, verifies nothing no matter how confident it sounds", () => {
     const result = classifyResolvedExecution({ verifiedByAgent: true, confidence: 1.0, note: "trust me, it worked" }, EXPECTED);
-    expect(result).toEqual({ outcome: "FAILED", trigger: "postcondition_fail", reasonCode: "POSTCONDITION_FAILED" });
+    expect(result).toEqual({ outcome: "FAILED", trigger: "postcondition_fail", reasonCode: "INVALID_TOOL_OUTPUT" });
   });
 });
