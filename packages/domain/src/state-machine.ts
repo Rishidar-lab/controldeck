@@ -10,12 +10,27 @@ import type { WorkflowState, WorkflowStateTrigger } from "@controldeck/contracts
  *
  * Every row is explicit, including the cross-cutting `audit_integrity_failed`
  * / `model_authority_violation` triggers repeated on every non-terminal
- * state, and `retry_budget_exhausted` repeated on the two states whose
- * agents actually have a retry budget (`PLAN_PENDING` for the Planner,
- * `EVIDENCE_PENDING` for the Researcher — `AGENT_CONTRACTS.md`). Nothing is
- * built via a dynamic "any state" shortcut: every legal (state, trigger)
- * pair is a literal entry you can read and audit directly, matching
- * ActionHarbor's own `state-machine.ts` discipline.
+ * state. Nothing is built via a dynamic "any state" shortcut: every legal
+ * (state, trigger) pair is a literal entry you can read and audit
+ * directly, matching ActionHarbor's own `state-machine.ts` discipline.
+ *
+ * `retry_budget_exhausted` (Gate 7 reconciliation, `submission/week4/
+ * ARCHITECTURE.md` row 24: "any pending state -> PAUSED ... cross-cutting,
+ * justified by w4-021") is repeated on every non-terminal state EXCEPT
+ * two, each excluded for a stated reason rather than by oversight:
+ * `INTAKE` (a near-instantaneous acceptance step with nothing to retry —
+ * Gate 1's original design already left it off, and nothing since has
+ * given it a retry budget) and `APPROVAL_PENDING` (already has its own
+ * more specific exhaustion trigger, `approval_expired`, serving the same
+ * "given up waiting" role for that state — adding a second, generic
+ * cross-cutting exhaustion trigger there would be redundant with, and
+ * potentially ambiguous against, the one the frozen TTL already defines).
+ * `PLAN_PENDING`/`EVIDENCE_PENDING` had this trigger from Gate 1 already
+ * (the Planner's and Researcher's own per-agent retry budgets,
+ * `AGENT_CONTRACTS.md`); this gate extends it to every other retryable
+ * pending state so `w4-021` ("Unbounded retry attempt") composes with
+ * the real state machine regardless of which stage the exhausted retry
+ * budget belongs to.
  *
  * `CONFLICT` and `PAUSED` have no outgoing edges in this gate — an honest,
  * documented gap, not an oversight: neither the frozen spec nor this
@@ -48,12 +63,14 @@ const TRANSITION_TABLE: Readonly<Record<WorkflowState, Partial<Readonly<Record<W
   EVIDENCE_ASSESSED: {
     claims_supported: "ACTION_PENDING",
     claim_blocked: "BLOCKED",
+    retry_budget_exhausted: "PAUSED",
     audit_integrity_failed: "PAUSED",
     model_authority_violation: "BLOCKED",
   },
   ACTION_PENDING: {
     action_proposed: "POLICY_PENDING",
     duplicate_action_intent: "CONFLICT",
+    retry_budget_exhausted: "PAUSED",
     audit_integrity_failed: "PAUSED",
     model_authority_violation: "BLOCKED",
   },
@@ -61,6 +78,7 @@ const TRANSITION_TABLE: Readonly<Record<WorkflowState, Partial<Readonly<Record<W
     policy_requires_approval: "APPROVAL_PENDING",
     policy_allow: "EXECUTION_PENDING",
     policy_deny: "BLOCKED",
+    retry_budget_exhausted: "PAUSED",
     audit_integrity_failed: "PAUSED",
     model_authority_violation: "BLOCKED",
   },
@@ -75,18 +93,21 @@ const TRANSITION_TABLE: Readonly<Record<WorkflowState, Partial<Readonly<Record<W
   EXECUTION_PENDING: {
     execution_resolved: "VERIFICATION_PENDING",
     execution_unknown_outcome: "RECONCILIATION_REQUIRED",
+    retry_budget_exhausted: "PAUSED",
     audit_integrity_failed: "PAUSED",
     model_authority_violation: "BLOCKED",
   },
   VERIFICATION_PENDING: {
     postcondition_pass: "COMPLETE",
     postcondition_fail: "FAILED",
+    retry_budget_exhausted: "PAUSED",
     audit_integrity_failed: "PAUSED",
     model_authority_violation: "BLOCKED",
   },
   RECONCILIATION_REQUIRED: {
     reconciliation_found: "VERIFICATION_PENDING",
     reconciliation_inconclusive: "RECONCILIATION_REQUIRED",
+    retry_budget_exhausted: "PAUSED",
     audit_integrity_failed: "PAUSED",
     model_authority_violation: "BLOCKED",
   },

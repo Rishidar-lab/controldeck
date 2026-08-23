@@ -1,0 +1,26 @@
+{
+  "name": "@controldeck/verification",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Gate 7: execution attempted is NOT execution proven. Authoritative SUCCEEDED/FAILED/UNKNOWN_OUTCOME semantics, deterministic postcondition proof, read-only reconciliation, and bounded retry budgets. Never trusts adapter narration, transport success, or any agent's own claim of verification.",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@controldeck/contracts": "workspace:*",
+    "@controldeck/domain": "workspace:*",
+    "@controldeck/execution": "workspace:*",
+    "@controldeck/governance": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.10"
+  }
+}
