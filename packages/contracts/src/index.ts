@@ -159,3 +159,67 @@ export type AuditActorKind = z.infer<typeof AuditActorKind>;
 
 export const AuditSubjectKind = z.enum(["workflow", "plan", "evidence", "action", "approval", "capability", "operation"]);
 export type AuditSubjectKind = z.infer<typeof AuditSubjectKind>;
+
+// ---------------------------------------------------------------------------
+// Specialist agent output boundary (Gate 4, AGENT_CONTRACTS.md: Planner and
+// Researcher rows — "Untrusted proposal" / "Untrusted evidence"). Mirrors
+// ActionHarbor's own `RawProposalEnvelope` / `ProposalRejectionReason`
+// discipline (`packages/model-adapter/src/parse-proposal.ts`, reused here as
+// a CONCEPT only, independently reimplemented): a specialist's raw output is
+// `unknown` until it passes one of these `.strict()` schemas, so an extra
+// field a model tries to smuggle in (`state`, `approved`, `verified`, ...)
+// fails with `unrecognized_keys` rather than silently reaching anything
+// downstream. Distinct from `ReasonCode` on purpose — these are
+// parse-boundary outcomes about the RAW OUTPUT ITSELF, not governance/
+// workflow decisions about an already-valid artifact.
+// ---------------------------------------------------------------------------
+
+export const SpecialistOutputRejectionReason = z.enum(["OVERSIZED_OUTPUT", "MALFORMED_JSON", "SCHEMA_INVALID", "PROVIDER_TIMEOUT", "PROVIDER_ERROR"]);
+export type SpecialistOutputRejectionReason = z.infer<typeof SpecialistOutputRejectionReason>;
+
+/** Planner output (`AGENT_CONTRACTS.md`: "`PlanArtifact` with ordered steps and dependencies"). No field here can express approval, evidence, execution, or state — `.strict()` makes that a parse-time guarantee, not a runtime filter someone has to remember to apply. */
+export const RawPlanStep = z
+  .object({
+    stepId: z.string().min(1),
+    description: z.string().min(1),
+    dependsOn: z.array(z.string()),
+  })
+  .strict();
+export type PlanStep = z.infer<typeof RawPlanStep>;
+
+export const RawPlanArtifact = z
+  .object({
+    planId: z.string().min(1),
+    goal: z.string().min(1),
+    steps: z.array(RawPlanStep).min(1),
+  })
+  .strict();
+export type PlanArtifact = z.infer<typeof RawPlanArtifact>;
+
+/** Researcher output (`AGENT_CONTRACTS.md`: "`EvidenceBundle` with source ids, excerpts, relevance, gaps"). Field-for-field compatible with `@controldeck/evidence`'s `EvidenceRecord`/`EvidenceBundle` (Gate 2) but named distinctly here — this is the CANDIDATE shape straight off an untrusted provider, before anything has decided it means anything. */
+export const RawEvidenceRecord = z
+  .object({
+    recordId: z.string().min(1),
+    sourceId: z.string().min(1),
+    documentVersion: z.string().min(1),
+    tenantId: z.string().min(1),
+    excerpt: z.string(),
+    retrievalMethod: z.string().min(1),
+    relevanceScore: z.number().min(0).max(1),
+    contentHash: z.string().min(1),
+    retrievedAt: z.string().min(1),
+  })
+  .strict();
+export type EvidenceRecordCandidate = z.infer<typeof RawEvidenceRecord>;
+
+export const RawEvidenceBundle = z
+  .object({
+    bundleId: z.string().min(1),
+    snapshotId: z.string().min(1),
+    query: z.string(),
+    records: z.array(RawEvidenceRecord),
+    gaps: z.array(z.string()),
+    createdAt: z.string().min(1),
+  })
+  .strict();
+export type EvidenceBundleCandidate = z.infer<typeof RawEvidenceBundle>;
