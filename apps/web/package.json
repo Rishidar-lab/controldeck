@@ -1,0 +1,40 @@
+{
+  "name": "@controldeck/web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Gate 9: the ControlDeck operator UI. Makes the governance boundary visible — specialist proposals rendered as advisory, deterministic governance/approval/execution/verification/audit rendered as authoritative, never merged into one generic assistant view. Every hero scenario composes the REAL @controldeck/* packages; nothing here is hard-coded demo state.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit -p tsconfig.json && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@controldeck/agents": "workspace:*",
+    "@controldeck/authority": "workspace:*",
+    "@controldeck/contracts": "workspace:*",
+    "@controldeck/domain": "workspace:*",
+    "@controldeck/evidence": "workspace:*",
+    "@controldeck/execution": "workspace:*",
+    "@controldeck/governance": "workspace:*",
+    "@controldeck/ledger": "workspace:*",
+    "@controldeck/verification": "workspace:*",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@types/node": "^22.0.0",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.6",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "@vitejs/plugin-react": "^5.1.0",
+    "jsdom": "^28.1.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.13",
+    "vitest": "^4.1.10"
+  }
+}

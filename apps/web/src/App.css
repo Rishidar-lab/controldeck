@@ -1,0 +1,261 @@
+:root {
+  color-scheme: light;
+  --bg: #f4f5f7;
+  --panel-bg: #ffffff;
+  --border: #d7dbe2;
+  --text: #1a1f29;
+  --text-dim: #5a6472;
+  --authoritative: #1d4ed8;
+  --authoritative-bg: #eaf0ff;
+  --advisory: #b45309;
+  --advisory-bg: #fff6e6;
+  --allow: #15803d;
+  --deny: #b91c1c;
+  --warn: #b45309;
+  --mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.app {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.app-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.app-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.app-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  margin: 2px 0 0;
+}
+
+.scenario-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.scenario-btn {
+  border: 1px solid var(--border);
+  background: var(--panel-bg);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.scenario-btn[aria-pressed="true"] {
+  background: var(--authoritative);
+  color: white;
+  border-color: var(--authoritative);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 12px;
+}
+
+.panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.panel h2 {
+  font-size: 0.95rem;
+  margin: 0 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.field-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 0.82rem;
+  padding: 3px 0;
+  border-bottom: 1px dashed var(--border);
+}
+
+.field-row:last-child {
+  border-bottom: none;
+}
+
+.field-label {
+  color: var(--text-dim);
+}
+
+.field-value {
+  font-family: var(--mono);
+  text-align: right;
+  word-break: break-word;
+}
+
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.badge-authoritative {
+  background: var(--authoritative-bg);
+  color: var(--authoritative);
+  border: 1px solid var(--authoritative);
+}
+
+.badge-advisory {
+  background: var(--advisory-bg);
+  color: var(--advisory);
+  border: 1px solid var(--advisory);
+}
+
+.badge-allow {
+  background: #e8f8ee;
+  color: var(--allow);
+  border: 1px solid var(--allow);
+}
+
+.badge-deny {
+  background: #fdecec;
+  color: var(--deny);
+  border: 1px solid var(--deny);
+}
+
+.badge-warn {
+  background: #fff3e0;
+  color: var(--warn);
+  border: 1px solid var(--warn);
+}
+
+.specialist-card {
+  border: 1px solid var(--advisory);
+  background: var(--advisory-bg);
+  border-radius: 6px;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+}
+
+.specialist-card:last-child {
+  margin-bottom: 0;
+}
+
+.specialist-card h3 {
+  margin: 0 0 4px;
+  font-size: 0.85rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.evidence-item {
+  border-radius: 6px;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  border: 1px solid var(--border);
+}
+
+.evidence-item:last-child {
+  margin-bottom: 0;
+}
+
+.evidence-item.kind-CLAIM,
+.evidence-item.kind-EVIDENCE {
+  border-color: var(--advisory);
+  background: var(--advisory-bg);
+}
+
+.evidence-item.kind-VERIFIED_FACT {
+  border-color: var(--authoritative);
+  background: var(--authoritative-bg);
+}
+
+.evidence-item h4 {
+  margin: 0 0 4px;
+  font-size: 0.8rem;
+}
+
+.disclaimer {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  font-style: italic;
+  margin-top: 8px;
+}
+
+.audit-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+}
+
+.audit-table th,
+.audit-table td {
+  text-align: left;
+  padding: 4px 6px;
+  border-bottom: 1px solid var(--border);
+}
+
+.conflict-panel {
+  border-color: var(--warn);
+  background: var(--advisory-bg);
+}
+
+.raw-json {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  white-space: pre-wrap;
+  background: #f7f8fa;
+  border-radius: 4px;
+  padding: 6px;
+  margin: 4px 0 0;
+  max-height: 160px;
+  overflow: auto;
+}
+
+.integrity-ok {
+  color: var(--allow);
+}
+
+.integrity-fail {
+  color: var(--deny);
+  font-weight: 700;
+}
+
+@media (max-width: 480px) {
+  .app-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

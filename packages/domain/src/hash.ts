@@ -1,4 +1,4 @@
-import { createHash } from "node:crypto";
+import { sha256Hex as computeSha256Hex } from "./sha256.js";
 
 export type Canonical = null | boolean | string | number | readonly Canonical[] | { readonly [key: string]: Canonical };
 
@@ -41,7 +41,7 @@ export function canonicalize(value: unknown): Canonical {
 }
 
 function sha256Hex(input: string): string {
-  return `sha256:${createHash("sha256").update(input, "utf8").digest("hex")}`;
+  return `sha256:${computeSha256Hex(input)}`;
 }
 
 /** Deterministic hash of any canonicalizable value — used for snapshot ids, plan/evidence/action hashes, and (Gate 8) audit event hashing. */
