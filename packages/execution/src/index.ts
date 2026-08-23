@@ -1,0 +1,14 @@
+export type { AdapterLookupResult, AdapterOperation, AdapterPort } from "./adapter-port.js";
+export { MAX_CAPABILITY_TTL_MS, mintCapability, validateCapability } from "./capability.js";
+export type { AuthorizationEvidence, Capability, CapabilityCheckResult, CapabilityMintRejectionReason, CapabilityRejectionReason, CapabilityRequest, MintCapabilityResult } from "./capability.js";
+export { CapabilityActionTypeMismatchError, IdempotencyKeyPayloadMismatchError, UnauthorizedAdapterInvocationError } from "./errors.js";
+export { DEFAULT_EXECUTION_TIMEOUT_MS, executeAction } from "./execute.js";
+export type { ExecuteActionFailure, ExecuteActionInput, ExecuteActionPreconditionFailure, ExecuteActionResolved, ExecuteActionResult, ExecuteActionUnknownOutcome } from "./execute.js";
+export { FakeTicketAdapter } from "./fake-ticket-adapter.js";
+export type { CreateTicketParams, TicketReceipt } from "./fake-ticket-adapter.js";
+export { OperationStore } from "./operation-store.js";
+export type { OperationLookup, OperationOutcomeState, OperationRecord } from "./operation-store.js";
+export { checkExecutionPreconditions } from "./precondition.js";
+export type { CurrentExecutionState, PreconditionCheckResult, PreconditionDriftDimension } from "./precondition.js";
+export { CapabilityRegistry } from "./registry.js";
+export type { ExecutionTicket, RegistryConsumeResult } from "./registry.js";

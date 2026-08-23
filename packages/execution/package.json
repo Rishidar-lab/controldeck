@@ -1,0 +1,26 @@
+{
+  "name": "@controldeck/execution",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Gate 6: the deterministic execution boundary. THE only legitimate path from authorized intent to a privileged adapter call — capability, precondition/state-drift recheck, idempotency, controlled adapter invocation, execution result capture. Independent of ActionHarbor: concepts reused, no shared code or package dependency.",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@controldeck/contracts": "workspace:*",
+    "@controldeck/domain": "workspace:*",
+    "@controldeck/authority": "workspace:*",
+    "@controldeck/governance": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.10"
+  }
+}
