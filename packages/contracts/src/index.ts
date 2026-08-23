@@ -75,8 +75,15 @@ export type WorkflowStateTrigger = z.infer<typeof WorkflowStateTrigger>;
  * Every reason code a ControlDeck decision can report. Each is pinned by a
  * named case in `06-week4-evaluation/evaluation_corpus.json` (w4-xxx,
  * documented per-code below and in ARCHITECTURE.md's transition table),
- * except `APPROVAL_EXPIRED` — justified instead by `AGENT_CONTRACTS.md`'s
- * explicit 10-minute human-control TTL, since no corpus case exercises it.
+ * except three disclosed additions, none from a corpus case: `APPROVAL_EXPIRED`
+ * (justified by `AGENT_CONTRACTS.md`'s explicit 10-minute human-control
+ * TTL), `GOVERNANCE_UNAVAILABLE` (Gate 3 — the fail-closed-on-internal-error
+ * code no frozen document names, mirrored from `SECURITY_MODEL.md`'s stated
+ * "fail-closed policy" principle — an evaluation that throws must never be
+ * treated as ALLOW), and `CUMULATIVE_RISK_REQUIRES_APPROVAL` (Gate 3 — the
+ * reason a high-risk plan routes to approval; `POLICY_MODEL.md` names
+ * "cumulative risk" as an evaluated factor but no corpus case pins a code
+ * to the resulting REQUIRE_APPROVAL outcome).
  */
 export const ReasonCode = z.enum([
   "GOAL_AMBIGUOUS", // w4-027
@@ -107,6 +114,8 @@ export const ReasonCode = z.enum([
   "MODEL_CANNOT_AUTHORITATIVE_EVENT", // w4-026
   "REPLAY_PROJECTION", // w4-012 (not a state-machine trigger — see projection note in domain package)
   "PRECONDITION_FAILED", // w4-007
+  "GOVERNANCE_UNAVAILABLE", // Gate 3 disclosed addition — fail-closed on internal evaluation error
+  "CUMULATIVE_RISK_REQUIRES_APPROVAL", // Gate 3 disclosed addition — high-risk plan routed to approval
 ]);
 export type ReasonCode = z.infer<typeof ReasonCode>;
 
