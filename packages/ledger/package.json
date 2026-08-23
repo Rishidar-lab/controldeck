@@ -1,0 +1,24 @@
+{
+  "name": "@controldeck/ledger",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Gate 8: deterministic, server-authored, append-only, hash-chained audit evidence. Tamper-evident, not tamper-proof, not blockchain, not immutable — a model may contribute payload content but never chooses an event's type, sequence, or hash.",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@controldeck/contracts": "workspace:*",
+    "@controldeck/domain": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.10"
+  }
+}
