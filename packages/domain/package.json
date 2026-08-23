@@ -1,0 +1,23 @@
+{
+  "name": "@controldeck/domain",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Pure domain logic: the workflow state machine, canonical hashing, clock/id abstractions. No I/O.",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@controldeck/contracts": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.10"
+  }
+}
