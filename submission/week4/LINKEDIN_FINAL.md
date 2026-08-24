@@ -2,8 +2,10 @@
 
 **Status: content final, grounded only in claims the frozen implementation
 actually supports** (`submission/week4/WEEK4_FREEZE.md`,
-`submission/week4/SUBMISSION_READINESS.md`, `docs/EVALUATION.md`). One link
-is a placeholder — fill only when real, do not guess it.
+`submission/week4/SUBMISSION_READINESS.md`, `docs/EVALUATION.md`). The demo
+video is now real and public (GitHub Release `week4-demo-v1`); the
+resulting LinkedIn post URL is the one remaining placeholder — it cannot
+exist until this is actually published.
 
 ---
 
@@ -55,7 +57,7 @@ reported as not-yet-demonstrated rather than faked with a bolted-on
 LLM-as-judge to inflate the score.
 
 GitHub: https://github.com/Rishidar-lab/controldeck
-Demo video: **[ADD DEMO VIDEO URL AFTER UPLOAD]**
+Demo video: https://github.com/Rishidar-lab/controldeck/releases/tag/week4-demo-v1
 
 #InnovationHacks #AIEngineering #AgentGovernance #TypeScript #AISafety
 **[ADD OFFICIAL INNOVATION HACKS TAG/HANDLE/URL IF the program specifies one beyond the hashtag]**
@@ -64,8 +66,8 @@ Demo video: **[ADD DEMO VIDEO URL AFTER UPLOAD]**
 
 ## Publishing checklist (do not skip)
 
-- [ ] Record the demo per `DEMO_SCRIPT.md` / `FINAL_RECORDING_SHOTLIST.md` / `NARRATION.md` — all three are rehearsed live and ready; no recording exists yet.
-- [ ] Replace the demo-video placeholder with the real upload URL — never guess it.
+- [x] Recorded the demo per `DEMO_SCRIPT.md` / `FINAL_RECORDING_SHOTLIST.md` / `NARRATION.md` — real Playwright capture of Scenarios A–D, local TTS narration, burned-in captions. Published as GitHub Release `week4-demo-v1`. Narration ran longer at a natural pace than the shot list's second-by-second budget assumed, so dwell times were extended to match rather than rushing the voiceover or cutting content — final runtime is ~2:45, not 90–120s.
+- [x] Replaced the demo-video placeholder with the real, publicly-verified release URL above.
 - [ ] Do not claim semantic evidence verification, a live orchestrator, or Risk/Verifier specialists — all explicitly disclaimed as not-yet-built in the README §14.
 - [ ] Keep the evaluation number exactly as recorded (19/2/5/4) — do not round up or drop the PARTIAL/FAIL breakdown.
 - [ ] Do not publish while any link above is still a placeholder.

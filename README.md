@@ -314,6 +314,8 @@ pnpm secret-scan     # zero-dependency scan over git-tracked files
 
 ## 17. Demo
 
+**Demo video:** https://github.com/Rishidar-lab/controldeck/releases/tag/week4-demo-v1 (Scenarios A–D, narrated, ~2:45)
+
 ```bash
 pnpm --filter @controldeck/web dev
 ```
