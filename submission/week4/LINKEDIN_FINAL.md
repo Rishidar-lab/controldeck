@@ -15,51 +15,40 @@ For Innovation Hacks Week 4, I built **ControlDeck** — the layer that
 decides what an AI-driven workflow is actually allowed to do, independent
 of how many agents agree it's a good idea.
 
-The problem I kept running into designing this: it's easy to make a
-multi-agent system *feel* safe by adding a "reviewer" agent, a "risk"
-agent, a voting step. None of that is actually governance — it's still
-model output, all the way down, and a confident wrong answer from a
-reviewer agent is just as capable of authorizing a bad action as the
-original proposer was. So ControlDeck draws the line differently:
+It's easy to make a multi-agent system *feel* safe by adding a "reviewer"
+agent or a voting step. None of that is governance — it's still model
+output, all the way down, and a confident wrong answer from a reviewer
+agent can authorize a bad action just as easily as the original proposer.
+ControlDeck draws the line differently:
 
 **Agents propose. Evidence is assessed. Deterministic governance decides
 what transitions are legal. Human approval binds authority where required.
 Execution is controlled. Postconditions determine success. Audit
 reconstructs what happened.**
 
-- Two specialists (Planner, Researcher) run and produce output — always
-  labeled **Advisory** in the UI, never merged into a generic "assistant
-  said so" blob, and structurally incapable of constructing a workflow
-  transition, an approval, an execution capability, or an audit event.
-- Evidence moves through three real stages — claim, evidence, verified
-  fact — where "verified" means a deterministic structural check
-  (provenance, integrity, freshness), not a model's own claim of having
-  checked something.
-- A human approval binds to a specific plan hash, evidence snapshot, and
-  action — if any of those three drift before the approval is consumed,
-  it fails closed instead of silently carrying over.
-- Execution runs through exactly one capability-scoped gateway; a
-  resolved adapter call isn't "success" until an independent postcondition
-  check proves it, and an ambiguous outcome gets a bounded retry budget
-  instead of an infinite blind retry.
-- Every step lands in a hash-chained audit ledger a model cannot author —
-  proven live by trying to forge an authoritative event through the
-  payload and watching it have zero effect on the ledger's real,
-  system-computed fields.
+Two specialists (Planner, Researcher) produce output — always labeled
+**Advisory** in the UI, structurally incapable of constructing a workflow
+transition, an approval, or an audit event. Evidence moves through three
+stages — claim, evidence, verified fact — where "verified" means a
+deterministic structural check, not a model's own claim of having
+checked. A human approval binds to a specific plan hash, evidence
+snapshot, and action; if any drift before it's consumed, it fails closed.
+
+The recorded demo proves this live: I tried to forge an authoritative
+audit event through the request payload, and it had zero effect on the
+ledger's real, system-computed fields.
 
 30-case adversarial evaluation: **19 PASS / 2 PARTIAL / 5 FAIL / 4
-NOT_APPLICABLE.** I'm leading with that number on purpose — every FAIL and
-PARTIAL is root-caused and disclosed rather than smoothed over: semantic
-evidence verification is structurally out of scope by design (the system
-checks provenance and integrity, never claim *truth*), and no live
-orchestrator exists yet, so two cases that depend on one are honestly
-reported as not-yet-demonstrated rather than faked with a bolted-on
-LLM-as-judge to inflate the score.
+NOT_APPLICABLE.** I'm leading with that number on purpose — every gap is
+root-caused: semantic evidence verification is structurally out of scope
+by design, and two cases depend on a live orchestrator that doesn't exist
+yet, reported honestly rather than papered over with a bolted-on
+LLM-as-judge.
 
 GitHub: https://github.com/Rishidar-lab/controldeck
 Demo video: https://github.com/Rishidar-lab/controldeck/releases/tag/week4-demo-v1
 
-#InnovationHacks #AIEngineering #AgentGovernance #TypeScript #AISafety
+#InnovationHacks #AIEngineering #AgentGovernance #AISafety
 **[ADD OFFICIAL INNOVATION HACKS TAG/HANDLE/URL IF the program specifies one beyond the hashtag]**
 
 ---
