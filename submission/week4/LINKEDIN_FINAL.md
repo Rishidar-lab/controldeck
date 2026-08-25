@@ -49,7 +49,6 @@ GitHub: https://github.com/Rishidar-lab/controldeck
 Demo video: https://github.com/Rishidar-lab/controldeck/releases/tag/week4-demo-v1
 
 #InnovationHacks #AIEngineering #AgentGovernance #AISafety
-**[ADD OFFICIAL INNOVATION HACKS TAG/HANDLE/URL IF the program specifies one beyond the hashtag]**
 
 ---
 
