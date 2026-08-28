@@ -1,5 +1,7 @@
 # ControlDeck
 
+[![CI](https://github.com/Rishidar-lab/controldeck/actions/workflows/ci.yml/badge.svg)](https://github.com/Rishidar-lab/controldeck/actions/workflows/ci.yml)
+
 **Multi-agent orchestration is not governance.**
 
 Agents propose. Evidence is assessed. Deterministic governance decides what
