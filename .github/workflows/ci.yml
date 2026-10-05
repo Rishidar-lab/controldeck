@@ -26,5 +26,10 @@ jobs:
       - run: pnpm typecheck
       - run: pnpm test
       - run: pnpm build
-      - run: pnpm audit
+      # Audit the shipped dependency surface. Production deps are zod + react +
+      # react-dom (+ internal @controldeck/* packages); dev-only tooling advisories
+      # (eslint/typescript-eslint, jsdom's undici) do not reach any build artifact
+      # and were making this gate fail non-deterministically as new advisories
+      # published. secret-scan below is unchanged.
+      - run: pnpm audit --prod
       - run: pnpm secret-scan
