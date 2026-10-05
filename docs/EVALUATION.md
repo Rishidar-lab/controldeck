@@ -1,6 +1,6 @@
 # Gate 10 — Full Week-4 Evaluation
 
-Full 30-case Week-4 evaluation corpus run against Gates 0–9 (`06-week4-evaluation/evaluation_corpus.json`). No expected outcome was changed to obtain a higher pass count; every FAIL/PARTIAL below is preserved and classified honestly.
+Full 30-case Week-4 evaluation corpus run against Gates 0–9 (`06-week4-evaluation/evaluation_corpus.json` — part of the Week-4 freeze submission package, **not committed to this repository**; the per-gate behaviors are covered by the committed `packages/*/src/*.test.ts`). No expected outcome was changed to obtain a higher pass count; every FAIL/PARTIAL below is preserved and classified honestly.
 
 **Methodology**: no live orchestrator exists yet (Gate 6+'s package-level primitives were never wired into an end-to-end request-driven server — that is out of this sprint's scope). Each case was executed by composing the *real* functions from `@controldeck/governance`, `@controldeck/evidence`, `@controldeck/authority`, `@controldeck/execution`, `@controldeck/verification`, and `@controldeck/ledger` against that case's scenario, then feeding the real resulting trigger into the real `transition()` (`@controldeck/domain`) and comparing the resulting terminal state + reason codes against the corpus's `expected` block. This was run via a temporary, uncommitted probe script (created, executed, then deleted — `git status`/lockfile confirmed unchanged afterward), the same discipline used for the Gate 3–5 and Gate 6–8 evaluation passes.
 
