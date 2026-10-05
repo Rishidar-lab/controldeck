@@ -208,6 +208,12 @@ functions per case and comparing the resulting terminal state + reason
 codes to each case's expected outcome. No expected outcome was ever
 changed to inflate the pass count.
 
+> Note: the corpus JSON (`06-week4-evaluation/evaluation_corpus.json`) is part of
+> the Week-4 freeze submission package and is **not committed to this repository**.
+> The per-gate behaviors each case exercises are covered by the committed package
+> unit tests (`packages/*/src/*.test.ts`); the honest case-by-case results are in
+> [`docs/EVALUATION.md`](docs/EVALUATION.md).
+
 | | Count |
 |---|---|
 | Total cases | 30 |
