@@ -2,6 +2,13 @@
 
 [![CI](https://github.com/Rishidar-lab/controldeck/actions/workflows/ci.yml/badge.svg)](https://github.com/Rishidar-lab/controldeck/actions/workflows/ci.yml)
 
+## Status
+
+**MAINTAIN — governance demo (hackathon week-4 build).**
+
+- IMPLEMENTED / TESTED: 276-test suite; CI green on `main` (`pnpm audit --prod`, secret-scan retained).
+- NOT CLAIMED: production use; this is an argument-by-construction demo, not an orchestration platform.
+
 **Multi-agent orchestration is not governance.**
 
 Agents propose. Evidence is assessed. Deterministic governance decides what
